@@ -28,7 +28,7 @@ Route::group(['middleware' => ['auth', 'isAdmin'], 'prefix' => 'admin', 'as' => 
     
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
 
-    Route::post('categories/image', \App\Http\Controllers\Admin\CategoryController::class, 'storeImage'])->name('categories.storeImage');
+    Route::post('categories/image', [\App\Http\Controllers\Admin\CategoryController::class, 'storeImage'])->name('categories.storeImage');
 });
 
 Auth::routes();

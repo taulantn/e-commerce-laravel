@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('frontend/css/font-awesome.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('frontend/css/elegant-icons.css') }}" type="text/css">
+
+    @stack('style-alt')
 </head>
 
 <body id="page-top">

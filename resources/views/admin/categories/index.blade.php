@@ -30,7 +30,13 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->slug }}</td>
-                                    <td>{{ $category->image }}</td>
+                                    <td>
+                                        @if($category->photo)
+                                            <a href="{{ $category->photo->getUrl() }}" target="_blank">
+                                                <img src="{{ $category->photo->getUrl() }}" width="45px" height="45px" alt="">
+                                            </a>
+                                        @endif
+                                    </td>
                                     <td>{{ $category->parent->name ?? 'Null'}}</td>
                                     <td>
                                         <div class="btn-group">

@@ -42,10 +42,10 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        Category::create($request->validated());
+        $category = Category::create($request->validated());
 
         if($request->input('photo', false)){
-            
+            $category -> addMedia(storage_path('tmp/uploads') . $request->input('photo'))->toMediaCollection('photo');
         }
         return redirect()->route('admin.categories.index')->with([
             'message' => 'Successfuly Created!',
