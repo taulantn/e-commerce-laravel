@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\ImageUploading;
 use App\Http\Requests\Admin\CategoryRequest;
 
 class CategoryController extends Controller
 {
+    use ImageUploading;
     /**
      * Display a listing of the resource.
      *
@@ -42,6 +44,9 @@ class CategoryController extends Controller
     {
         Category::create($request->validated());
 
+        if($request->input('photo', false)){
+            
+        }
         return redirect()->route('admin.categories.index')->with([
             'message' => 'Successfuly Created!',
             'type' => 'success'
