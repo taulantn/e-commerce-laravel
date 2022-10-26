@@ -80,11 +80,12 @@ class CategoryController extends Controller
 
         if($request->input('photo', false)){
             if(!$category->photo || $request->input('photo') !== $category->photo->file_name){
-                if($category->photo !== null){
-                    $category->photo->delete();
-                }
+                isset($category->photo) ? $category->photo->delete() : null;
                 $category->addMedia(storage_path('tmp/uploads/') . $request->input('photo'))->toMediaCollection('photo');
             }
+        }
+        else if($category->photo){
+            $category->photo->delete();
         }
 
         return redirect()->route('admin.categories.index')->with([

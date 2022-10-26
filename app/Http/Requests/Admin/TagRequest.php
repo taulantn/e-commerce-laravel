@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryRequest extends FormRequest
+class TagRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,15 +26,13 @@ class CategoryRequest extends FormRequest
         switch($this->method()){
             case "POST":
                 return [
-                    'name' => ['required', 'unique:categories'],
-                    'category_id' => 'nullable'
+                    'name' => ['required', 'unique:tags'],
                 ];
 
             case "PUT":
             case "PATCH":
                 return [
-                    'name' => ['required', 'unique:categories,name,' . $this->route()->category->id],
-                    'category_id' => 'nullable'
+                    'name' => ['required', 'unique:tags,name,' . $this->route()->tag->id],
                 ];      
             default: break;      
         }

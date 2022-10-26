@@ -8,14 +8,13 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-
-class Category extends Model implements HasMedia
+class Product extends Model implements HasMedia
 {
     use HasFactory, Sluggable, InteractsWithMedia;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    protected $appends = ['photo'];
+    protected $appends = ['gallery'];
     
     /**
      * Return the sluggable configuration array for this model.
@@ -32,15 +31,11 @@ class Category extends Model implements HasMedia
         ];
     }
 
-    public function parent(){
-        return $this->belongsTo(Category::class, 'category_id');
+    public function category(){
+        return $this->belongsTo(Category::class);
     }
 
-    public function children(){
-        return $this->hasMany(Category::class);
-    }
-
-    public function getPhotoAttribute(){
-        return $this->getMedia('photo')->first();
+    public function getGalleryAttribute(){
+        return $this->getMedia('gallery');
     }
 }

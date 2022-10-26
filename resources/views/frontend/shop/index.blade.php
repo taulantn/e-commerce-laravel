@@ -27,18 +27,18 @@
                 <div class="col-lg-3 col-md-5">
                     <div class="sidebar">
                         <div class="sidebar__item">
-                            <h4>Department</h4>
+                            <h4>Categories</h4>
                             <ul>
-                                <li><a href="#">Fresh Meat</a></li>
-                                <li><a href="#">Vegetables</a></li>
-                                <li><a href="#">Fruit & Nut Gifts</a></li>
-                                <li><a href="#">Fresh Berries</a></li>
-                                <li><a href="#">Ocean Foods</a></li>
-                                <li><a href="#">Butter & Eggs</a></li>
-                                <li><a href="#">Fastfood</a></li>
-                                <li><a href="#">Fresh Onion</a></li>
-                                <li><a href="#">Papayaya & Crisps</a></li>
-                                <li><a href="#">Oatmeal</a></li>
+                                @foreach($menu_categories as $menu_category)
+                                <li>
+                                    <a href="{{ route('shop.index', $menu_category->slug) }}">{{ $menu_category->name }}</a>
+                                    <ul>
+                                        @foreach($menu_category->children as $children)
+                                        <li class="mx-2"><a style="color: #b4b4b4; " href="{{ route('shop.index', $children->slug) }}">{{ $children->name }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                @endforeach
                             </ul>
                         </div>
                         <div class="sidebar__item">
@@ -98,31 +98,14 @@
                             </div>
                         </div>
                         <div class="sidebar__item">
-                            <h4>Popular Size</h4>
+                            <h4>Tags</h4>
+                            @foreach($menu_tags as $menu_tag)
                             <div class="sidebar__item__size">
                                 <label for="large">
-                                    Large
-                                    <input type="radio" id="large">
+                                    <a href="{{ route('shop.tag', $menu_tag->slug) }}">{{ $menu_tag-> name}}</a>
                                 </label>
                             </div>
-                            <div class="sidebar__item__size">
-                                <label for="medium">
-                                    Medium
-                                    <input type="radio" id="medium">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="small">
-                                    Small
-                                    <input type="radio" id="small">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="tiny">
-                                    Tiny
-                                    <input type="radio" id="tiny">
-                                </label>
-                            </div>
+                            @endforeach
                         </div>
                         <div class="sidebar__item">
                             <div class="latest-product__text">
