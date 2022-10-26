@@ -43,9 +43,10 @@
                                             <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-info">
                                                 <i class="fa fa-pencil"></i>
                                             </a>
-                                            <form action="{{ route('admin.categories.destroy', $category->id) }}" method="post" >
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                            <form onclick="return confirm('Are you sure ?')" action="{{ route('admin.categories.destroy', $category->id) }}" method="post" >
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                             </form>
                                         </div>
                                     </td>

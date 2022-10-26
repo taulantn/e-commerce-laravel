@@ -29,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::all()->pluck('name', 'id');
+        $categories = Category::whereNull('category_id')->pluck('name', 'id');
 
         return view('admin.categories.create', compact('categories'));
     }
@@ -45,7 +45,7 @@ class CategoryController extends Controller
         $category = Category::create($request->validated());
 
         if($request->input('photo', false)){
-            $category -> addMedia(storage_path('tmp/uploads') . $request->input('photo'))->toMediaCollection('photo');
+            $category -> addMedia(storage_path('tmp/uploads/') . $request->input('photo'))->toMediaCollection('photo');
         }
         return redirect()->route('admin.categories.index')->with([
             'message' => 'Successfuly Created!',
@@ -60,9 +60,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(CategoryRequest $category)
+    public function edit(Category $category)
     {
-        return view('admin.categories.edit', compact('category'));
+        $categories = Category::whereNull('category_id')->pluck('name', 'id');
+
+        return view('admin.categories.edit', compact('category', 'categories'));
     }
 
     /**
@@ -74,7 +76,16 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request,Category $category)
     {
-        $category->update($request->validate());
+        $category->update($request->validated());
+
+        if($request->input('photo', false)){
+            if(!$category->photo || $request->input('photo') !== $category->photo->file_name){
+                if($category->photo !== null){
+                    $category->photo->delete();
+                }
+                $category->addMedia(storage_path('tmp/uploads/') . $request->input('photo'))->toMediaCollection('photo');
+            }
+        }
 
         return redirect()->route('admin.categories.index')->with([
             'message' => 'Successfuly Updated!',
