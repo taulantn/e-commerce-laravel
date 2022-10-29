@@ -29,10 +29,12 @@ class ProductRequest extends FormRequest
                     'name' => ['required'],
                     'category_id' => ['required'],
                     'price' => ['required', 'numeric'],
-                    'qunatity' => [ 'required','numeric'],
+                    'quantity' => [ 'required','numeric'],
                     'weight' => ['required', 'numeric'],
                     'description' => ['required'],
                     'details' => ['required'],
+                    'tags' => ['required'],
+                    
                 ];
 
             case "PUT":
@@ -41,10 +43,12 @@ class ProductRequest extends FormRequest
                     'name' => ['required'],
                     'category_id' => ['required'],
                     'price' => ['required', 'numeric'],
-                    'qunatity' => ['required', 'numeric'],
+                    'quantity' => ['required', 'numeric'],
                     'weight' => ['required', 'numeric'],
                     'description' => ['required'],
                     'details' => ['required'],
+                    'tags' => ['required'],
+
                 ];      
             default: break;      
         }

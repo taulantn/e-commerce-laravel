@@ -38,4 +38,8 @@ class Product extends Model implements HasMedia
     public function getGalleryAttribute(){
         return $this->getMedia('gallery');
     }
+
+    public function tags(){
+        return $this->belongsToMany(Tag::class);
+    }
 }

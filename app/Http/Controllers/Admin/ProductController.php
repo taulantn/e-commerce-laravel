@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Models\Tag;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Http\Controllers\Traits\ImageUploading;
 
@@ -20,7 +20,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('tags')->get();
 
         return view('admin.products.index', compact('products'));
     }
@@ -33,8 +33,9 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::pluck('name','id');
+        $tags = Tag::pluck('name','id');
 
-        return view('admin.products.create', compact('categories'));
+        return view('admin.products.create', compact('categories', 'tags'));
     }
 
     /**
@@ -46,6 +47,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $product = Product::create($request->validated());
+        $product->tags()->attach($request->input('tags', []));
 
         foreach($request->input('gallery', []) as $file){
             $product->addMedia(storage_path('tmp/uploads/'). $file)->toMediaCollection('gallery');
@@ -65,7 +67,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view ('admin.products.index' , compact('product'));
+        return view ('admin.products.show' , compact('product'));
     }
 
     /**
@@ -77,8 +79,10 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::pluck('name','id');
+        $tags = Tag::pluck('name','id');
 
-        return view('admin.product.edit', compact('product', 'categories'));   
+
+        return view('admin.products.edit', compact('product', 'categories', 'tags'));   
     }
 
     /**
@@ -91,6 +95,23 @@ class ProductController extends Controller
     public function update(ProductRequest $request,Product $product)
     {
         $product->update($request->validated());
+        $product->tags()->sync($request->input('tags',[]));
+
+        if(count($product->gallery) > 0){
+            foreach($product->gallery as $media){
+                if(!in_array($media->file_name, $request->input('gallery', []))){
+                    $media->delete();
+                }
+            }
+        }
+
+        $media = $product->gallery->pluck('file_name')->toArray();
+
+        foreach($request->input('gallery', []) as $file){
+            if(count($media) === 0 || !in_array($file, $media)){
+                $product->addMedia(storage_path('tmp/uploads/') . $file)->toMediaCollection('gallery');
+            }
+        }
 
         return redirect()->route('admin.products.index')->with([
             'message' => 'Success Updated!',

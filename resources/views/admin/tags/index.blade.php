@@ -19,6 +19,7 @@
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Slug</th>
+                                <th>Product Count</th>
                                 <th>Action</th>
                             </tr>
                          </thead>
@@ -28,6 +29,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $tag->name }}</td>
                                     <td>{{ $tag->slug }}</td>
+                                    <td>{{ $tag->products_count}}</td>
                                     <td>
                                         <div class="btn-group">
                                             <a href="{{ route('admin.tags.edit', $tag->id) }}" class="btn btn-info">

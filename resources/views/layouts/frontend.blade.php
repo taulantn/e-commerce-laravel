@@ -33,7 +33,7 @@
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><img src="{{ asset('frontend/img/logo.png') }}" alt=""></a>
+            <a href="#"><img style="width:20px; height:20px" src="{{ asset('frontend/img/logo.png') }}" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
             <ul>
@@ -59,11 +59,11 @@
                     </div>
                     <span class="arrow_carrot-down"></span>
                     <ul>
-                        <li><a href="#">Profile</a></li>
+                        <li><a href="http://127.0.0.1:8000/admin">Dashboard</a></li>
                     </ul>
                 </div>
                 <div class="header__top__right__auth" style="margin-left: 20px">
-                    <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-user"></i> Logout</a>
+                    <a href="" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-user"></i> Logout</a>
                     <form action="{{ route('logout')}}" id="logout-form" method="post">
                        @csrf 
                     </form>
@@ -72,8 +72,8 @@
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li class="active"><a href="./index.html">Home</a></li>
-                <li><a href="./shop-grid.html">Shop</a></li>
+                <li class="active"><a href="{{route('homepage')}}">Home</a></li>
+                <li><a href="{{route('shop.index')}}">Shop</a></li>
                 <li><a href="#">Categories</a>
                     <ul class="header__menu__dropdown">
                         @foreach($menu_categories as $menu_category)
@@ -81,7 +81,6 @@
                         @endforeach
                     </ul>
                 </li>
-                <li><a href="./blog.html">Blog</a></li>
                 <li><a href="./contact.html">Contact</a></li>
             </ul>
         </nav>
@@ -108,10 +107,6 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__left">
-                            <ul>
-                                <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                                <li>Free Shipping for all Order of $99</li>
-                            </ul>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
@@ -132,7 +127,7 @@
                                 <span class="arrow_carrot-down"></span>
                             
                             <ul>
-                                <li><a href="#">Profile</a></li>
+                                <li><a href="http://127.0.0.1:8000/admin">Dashboard</a></li>
                             </ul>
                             </div>
                             <div class="header__top__right__auth">
@@ -157,8 +152,8 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="./index.html">Home</a></li>
-                            <li><a href="./shop-grid.html">Shop</a></li>
+                            <li ><a href="{{ route('homepage') }}">Home</a></li>
+                            <li><a href="{{ route('shop.index') }}">Shop</a></li>
                             <li><a href="#">Categories</a>
                                 <ul class="header__menu__dropdown">
                                     @foreach($menu_categories as $menu_category)
@@ -198,17 +193,12 @@
                             <span>All departments</span>
                         </div>
                         <ul>
-                            <li><a href="#">Fresh Meat</a></li>
-                            <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
-                            <li><a href="#">Ocean Foods</a></li>
-                            <li><a href="#">Butter & Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya & Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li>
+                        @foreach($menu_categories as $menu_category)
+                                <li>
+                                    <a href="{{ route('shop.index', $menu_category->slug) }}">{{ $menu_category->name }}</a>
+                                    
+                                </li>
+                        @endforeach
                         </ul>
                     </div>
                 </div>
@@ -239,7 +229,7 @@
                             <span>FRUIT FRESH</span>
                             <h2>Vegetable <br />100% Organic</h2>
                             <p>Free Pickup and Delivery Available</p>
-                            <a href="#" class="primary-btn">SHOP NOW</a>
+                            <a href="{{route('shop.index')}}" class="primary-btn">SHOP NOW</a>
                         </div>
                     </div>
                 </div>
